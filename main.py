@@ -11,7 +11,10 @@ from flax import nn, optim
 
 import random
 
+# Local files
+import utils
 from environment import *
+
 
 class ReplayBuffer(object):
     def __init__(self, capacity):
@@ -160,8 +163,16 @@ def run_experiment(num_episodes=1000,
 
   return optimizer.target, ep_returns, ep_losses
 
-qfunc, ep_returns, ep_losses = run_experiment()
+if __name__ == "__main__":
 
-plt.plot(ep_returns)
+    # Read input arguments.
+    args = utils.ArgsParser.read_input_args()
 
-plt.plot(ep_losses)
+    # Run experimental trials.
+    for seed in range(args.n_trials):
+        random.seed(seed)
+        qfunc, returns, losses = run_experiment()
+        np.savetxt('{}/returns-{}.csv'.format(args.output, seed), returns, delimiter=',')
+        np.savetxt('{}/losses-{}.csv'.format(args.output, seed), losses, delimiter=',')
+
+        

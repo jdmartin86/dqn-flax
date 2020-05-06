@@ -401,16 +401,6 @@ def test():
     v = np.random.randn(200)
     e.visualize_qvalue(v,False)
 
-e = KeyEnv("room-nodoor")
-fig, axes = plt.subplots(4, 4, figsize=(12, 12))
-actions = [1, 1, 1, 1, 0, 0, 3, 3, 0, 0, 3, 3, 3]
-
-for a, ax in zip(actions, axes.flatten()):
-  e.plot(ax=ax)
-  e.step(a)
-  ax.set_yticks([])
-  ax.set_xticks([])
-
 #@title Wrapper for environment
 def fig2data(fig):
     """ Convert a Matplotlib figure to a 4D numpy array with RGBA channels and return it.
