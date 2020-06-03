@@ -46,7 +46,7 @@ class DQN(flax.nn.Module):
     x = flax.nn.Conv(x,features=64, kernel_size=(3,3), strides=(1,1))
     x = flax.nn.relu(x)
     x = x.reshape((x.shape[0], -1))
-    x = flax.nn.Dense(x, features=512)
+    x = flax.nn.Dense(x, features=64)
     x = flax.nn.relu(x)
     x = flax.nn.Dense(x, features=num_actions)
     return x
@@ -170,8 +170,9 @@ if __name__ == "__main__":
 
     # Run experimental trials.
     for seed in range(args.n_trials):
+        print("Trial #{}".format(seed))
         random.seed(seed)
-        qfunc, returns, losses = run_experiment()
+        qfunc, returns, losses = run_experiment(num_episodes=args.n_episodes, num_steps=args.n_steps)
         np.savetxt('{}/returns-{}.csv'.format(args.output, seed), returns, delimiter=',')
         np.savetxt('{}/losses-{}.csv'.format(args.output, seed), losses, delimiter=',')
 
